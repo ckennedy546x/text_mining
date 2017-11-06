@@ -2,7 +2,7 @@
 import random
 import string
 
-#turtle = wikipedia.page("Turtle")
+#turtle = wikipedia.page("Turtle") #was used to acquire the original file which was then copy and pasted into the new "wikiwords.txt" file
 # print(turtle.title)
 # print(turtle.url)
 # print(turtle.content)
@@ -23,25 +23,25 @@ def process_file(filename, skip_header):
 
     """
 
-    hist = {}
+    hist = {} #Creates a new, empty list
 
-    fp = open(filename, encoding='utf8')
-
-
-
-    if skip_header:
-
-        skip_gutenberg_header(fp)
+    fp = open(filename, encoding='utf8') #opens the specified file
 
 
 
-    for line in fp:
+    if skip_header: #calls upon skip_turtle_header function
 
-        if line.startswith('See also'):
+        skip_turtle_header(fp)
+
+
+
+    for line in fp: #for each line in the text
+
+        if line.startswith('See also'): #won't read anything after this string
 
             break
 
-        line = line.replace('-', ' ')
+        line = line.replace('-', ' ') #replace any -'s with a space
 
         strippables = string.punctuation + string.whitespace
 
@@ -57,19 +57,19 @@ def process_file(filename, skip_header):
 
 
 
-            # update the histogram
+            # update the histogram and adds the new word to the list hist
 
             hist[word] = hist.get(word, 0) + 1
 
 
 
-    return hist
+    return hist #prints the new histogram
 
 
 
 
 
-def skip_gutenberg_header(fp):
+def skip_turtle_header(fp):
 
     """Reads from fp until it finds the line that ends the header.
 
@@ -79,7 +79,7 @@ def skip_gutenberg_header(fp):
 
     """
 
-    for line in fp:
+    for line in fp: #for each line in the opened document, it will continue until it sees this string
 
         if line.startswith('Turtles are reptiles of the order Testudines'):
 
@@ -89,7 +89,7 @@ def total_words(hist):
 
     """Returns the total of the frequencies in a histogram."""
 
-    return sum(hist.values())
+    return sum(hist.values()) #returns the sum of the amount of values that were created in hist list
 
 
 
@@ -99,7 +99,7 @@ def different_words(hist):
 
     """Returns the number of different words in a histogram."""
 
-    return len(hist)
+    return len(hist) #returns length of the hist list
 
 def most_common(hist):
 
@@ -110,19 +110,19 @@ def most_common(hist):
     returns: list of (frequency, word) pairs
     """
 
-    t = []
+    t = [] # creates a new dictionary
 
-    for key, value in hist.items():
+    for key, value in hist.items():#for each word in the list hist
 
-        t.append((value, key))
+        t.append((value, key)) #will add the the word and how many times it appears to the dictionary 
 
 
 
-    t.sort()
+    t.sort() #will put in descending order
 
-    t.reverse()
+    t.reverse() #reverses the way the dictionary shows words and frequncy
 
-    return t
+    return t # returns dictionary
 
 def print_most_common(hist, num=30):
 
@@ -140,13 +140,13 @@ def print_most_common(hist, num=30):
 
     print('The most common words are:')
 
-    for freq, word in t[:num]:
+    for freq, word in t[:num]:#uses the last funtion but it puts it prints them instead of adding them to a dictionary
 
         print(word, '\t', freq)
 
-def main():
+def main():#prints all the results and calls upon the functions
 
-    hist = process_file('C:\\wikiwords.txt', skip_header=True)
+    hist = process_file('C:\\wikiwords.txt', skip_header=True) #defines what the hist is
 
     print('Total number of words:', total_words(hist))
 
